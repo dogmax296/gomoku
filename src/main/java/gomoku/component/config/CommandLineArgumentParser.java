@@ -1,10 +1,11 @@
 package gomoku.component.config;
 
+import gomoku.Constants;
 import gomoku.model.config.Level;
 import gomoku.model.config.PlayerType;
 import gomoku.model.config.Size;
 
-import static gomoku.Constants.DELAY_PREFIX;
+import static gomoku.Constants.*;
 import static gomoku.model.config.Level.LEVEL1;
 import static gomoku.model.config.Level.LEVEL2;
 import static gomoku.model.config.PlayerType.COMPUTER;
@@ -84,13 +85,13 @@ public class CommandLineArgumentParser {
 
 
         if(delayInMillis == -1){
-            delayInMillis = 800;
+            delayInMillis = DEFAULT_DELAY_IN_MILLIS;
         }
         if (level == null) {
-            level = LEVEL2;
+            level = DEFAULT_LEVEL;
         }
         if(size == null){
-            size = SIZE15;
+            size = DEFAULT_SIZE;
         }
         if (player1Type == null) {
             return new CommandLineArguments(USER, COMPUTER, level, size, delayInMillis);
