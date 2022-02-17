@@ -21,15 +21,13 @@ import gomoku.model.game.Player;
 
 import java.util.Random;
 
-import static gomoku.Constants.*;
+import static gomoku.Constants.GAME_TABLE_SIZE;
 
 /**
  * @author dogmax296
  * @link https://github.com/dogmax296
  */
 public final class Game {
-
-    private final GameOverHandler gameOverHandler;
 
     private final DataPrinter dataPrinter;
 
@@ -48,7 +46,6 @@ public final class Game {
                 final Player player2,
                 final WinnerVerifier winnerVerifier,
                 final CellVerifier cellVerifier,
-                final GameOverHandler gameOverHandler,
                 final boolean canSecondPlayerMakeFirstMove) {
 
         this.dataPrinter = dataPrinter;
@@ -56,12 +53,19 @@ public final class Game {
         this.player2 = player2;
         this.winnerVerifier = winnerVerifier;
         this.cellVerifier = cellVerifier;
-        this.gameOverHandler = gameOverHandler;
         this.canSecondPlayerMakeFirstMove = canSecondPlayerMakeFirstMove;
     }
 
+
     public void play() {
         dataPrinter.printInstructions();
+        while (true) {
+            playGame();
+        }
+
+    }
+
+    public void playGame() {
         final GameTable gametable = new GameTable(GAME_TABLE_SIZE);
         if (canSecondPlayerMakeFirstMove && new Random().nextBoolean()) {
             player2.makeMove(gametable);
@@ -74,19 +78,16 @@ public final class Game {
                 dataPrinter.printGameTable(gametable);
                 if (winnerVerifier.isWinner(gametable, player)) {
                     dataPrinter.printInfoMessage(player + " WIN!");
-                    gameOverHandler.gameOver();
                     return;
                 }
 
                 if (cellVerifier.allCellsFilled(gametable)) {
                     dataPrinter.printInfoMessage("SORRY, DRAW!");
-                    gameOverHandler.gameOver();
                     return;
                 }
             }
 
         }
-
     }
 
 }

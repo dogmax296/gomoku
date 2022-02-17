@@ -1,8 +1,6 @@
 package gomoku.component.swing;
 
-import gomoku.Constants;
 import gomoku.component.DataPrinter;
-import gomoku.component.GameOverHandler;
 import gomoku.component.UserInputReader;
 import gomoku.model.game.Cell;
 import gomoku.model.game.GameTable;
@@ -18,7 +16,7 @@ import static gomoku.Constants.*;
  * @author dogmax296
  * @link https://github.com/dogmax296
  */
-public final class GameWindow extends JFrame implements DataPrinter, UserInputReader, GameOverHandler {
+public final class GameWindow extends JFrame implements DataPrinter, UserInputReader {
 
     private static final int FONT_SIZE = 25;
 
@@ -79,10 +77,6 @@ public final class GameWindow extends JFrame implements DataPrinter, UserInputRe
         setVisible(true);
     }
 
-    @Override
-    public void gameOver() {
-        System.exit(0);
-    }
 
     @Override
     public void printInfoMessage(final String message) {
