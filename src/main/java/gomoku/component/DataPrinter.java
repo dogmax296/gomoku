@@ -9,8 +9,11 @@ import gomoku.model.game.GameTable;
 public interface DataPrinter {
 
     void printInstructions();
+
     void printInfoMessage(String message);
+
     void printErrorMessage(String message);
+
     void printGameTable(final GameTable gametable);
 
 }

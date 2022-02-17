@@ -41,24 +41,27 @@ public final class Game {
 
     private final boolean canSecondPlayerMakeFirstMove;
 
-    public Game(final GameOverHandler gameOverHandler, final DataPrinter dataPrinter,
+    public Game(final DataPrinter dataPrinter,
                 final Player player1,
                 final Player player2,
                 final WinnerVerifier winnerVerifier,
-                final CellVerifier cellVerifier, final boolean canSecondPlayerMakeFirstMove) {
-        this.gameOverHandler = gameOverHandler;
+                final CellVerifier cellVerifier,
+                final GameOverHandler gameOverHandler,
+                final boolean canSecondPlayerMakeFirstMove) {
+
         this.dataPrinter = dataPrinter;
         this.player1 = player1;
         this.player2 = player2;
         this.winnerVerifier = winnerVerifier;
         this.cellVerifier = cellVerifier;
+        this.gameOverHandler = gameOverHandler;
         this.canSecondPlayerMakeFirstMove = canSecondPlayerMakeFirstMove;
     }
 
     public void play() {
         dataPrinter.printInstructions();
         final GameTable gametable = new GameTable();
-       if (canSecondPlayerMakeFirstMove && new Random().nextBoolean()) {
+        if (canSecondPlayerMakeFirstMove && new Random().nextBoolean()) {
             player2.makeMove(gametable);
             dataPrinter.printGameTable(gametable);
         }

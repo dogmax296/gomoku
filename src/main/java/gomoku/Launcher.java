@@ -16,7 +16,7 @@
 
 package gomoku;
 
-import gomoku.component.*;
+import gomoku.component.Game;
 
 /**
  * @author dogmax296

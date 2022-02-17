@@ -24,10 +24,10 @@ import gomoku.model.game.Sign;
  * @author dogmax296
  * @link https://github.com/dogmax296
  */
-public class UserMove implements Move{
+public class UserMove implements Move {
 
     private final UserInputReader userInputReader;
-    private DataPrinter dataprinter;
+    private final DataPrinter dataprinter;
 
     public UserMove(final UserInputReader userInputReader, final DataPrinter dataprinter) {
         this.userInputReader = userInputReader;

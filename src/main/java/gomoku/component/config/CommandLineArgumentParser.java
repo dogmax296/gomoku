@@ -2,12 +2,10 @@ package gomoku.component.config;
 
 import gomoku.model.config.Level;
 import gomoku.model.config.PlayerType;
-import gomoku.model.config.UserInterface;
 
-import static java.lang.String.format;
 import static gomoku.model.config.Level.*;
-import static gomoku.model.config.PlayerType.*;
-import static gomoku.model.config.UserInterface.*;
+import static gomoku.model.config.PlayerType.COMPUTER;
+import static gomoku.model.config.PlayerType.USER;
 
 /**
  * @author dogmax296
@@ -24,7 +22,6 @@ public class CommandLineArgumentParser {
     public CommandLineArguments parse() {
         PlayerType player1Type = null;
         PlayerType player2Type = null;
-        UserInterface userInterface = null;
         Level level = null;
 
         for (final String arg : args) {
@@ -40,20 +37,10 @@ public class CommandLineArgumentParser {
                             arg, player1Type, player2Type
                     );
                 }
-            } else if (GUI.name().equalsIgnoreCase(arg) || CONSOLE.name().equalsIgnoreCase(arg)) {
-                if (userInterface == null) {
-                    userInterface = UserInterface.valueOf(arg.toUpperCase());
-                } else {
-                    System.err.printf(
-                            "Invalid command line arguments: '%s', because user interface is already set: '%s'!%n",
-                            arg, userInterface
-                    );
-                }
-
-            } else if(LEVEL1.name().equalsIgnoreCase(arg) ||
+            } else if (LEVEL1.name().equalsIgnoreCase(arg) ||
                     LEVEL2.name().equalsIgnoreCase(arg) ||
-                    LEVEL3.name().equalsIgnoreCase(arg)){
-                if(level == null){
+                    LEVEL3.name().equalsIgnoreCase(arg)) {
+                if (level == null) {
                     level = Level.valueOf(arg.toUpperCase());
                 } else {
                     System.err.printf(
@@ -62,7 +49,7 @@ public class CommandLineArgumentParser {
                     );
                 }
 
-            }else {
+            } else {
                 System.err.printf(
                         "Unsupported command line argument: '%s'%n",
                         arg);
@@ -70,18 +57,15 @@ public class CommandLineArgumentParser {
         }
 
 
-        if(level == null){
+        if (level == null) {
             level = LEVEL3;
         }
-        if (userInterface == null) {
-            userInterface = CONSOLE;
-        }
         if (player1Type == null) {
-            return new CommandLineArguments(USER, COMPUTER, userInterface, level);
+            return new CommandLineArguments(USER, COMPUTER,level);
         } else if (player2Type == null) {
-            return new CommandLineArguments(USER, player1Type, userInterface, level);
+            return new CommandLineArguments(USER, player1Type, level);
         } else {
-            return new CommandLineArguments(player1Type, player2Type, userInterface, level);
+            return new CommandLineArguments(player1Type, player2Type, level);
         }
 
     }
@@ -89,15 +73,13 @@ public class CommandLineArgumentParser {
     public static class CommandLineArguments {
         private final PlayerType player1Type;
         private final PlayerType player2Type;
-        private final UserInterface userInterface;
         private final Level level;
 
         private CommandLineArguments(final PlayerType player1Type,
                                      final PlayerType player2Type,
-                                     final UserInterface userInterface, final Level level) {
+                                     final Level level) {
             this.player1Type = player1Type;
             this.player2Type = player2Type;
-            this.userInterface = userInterface;
             this.level = level;
         }
 
@@ -107,10 +89,6 @@ public class CommandLineArgumentParser {
 
         public PlayerType getPlayer2Type() {
             return player2Type;
-        }
-
-        public UserInterface getUserInterface() {
-            return userInterface;
         }
 
         public Level getGameLevel() {

@@ -18,7 +18,7 @@ package gomoku.model.game;
 
 import java.util.Arrays;
 
-import static gomoku.model.game.Sign.*;
+import static gomoku.model.game.Sign.EMPTY;
 
 
 /**

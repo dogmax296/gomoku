@@ -19,8 +19,6 @@ package gomoku.component;
 import gomoku.model.game.GameTable;
 import gomoku.model.game.Sign;
 
-import static java.lang.String.format;
-
 /**
  * @author dogmax296
  * @link https://github.com/dogmax296

@@ -9,10 +9,10 @@ public enum Sign {
     O,
     EMPTY;
 
-    public Sign oppositeSign(){
-        if (this == X){
+    public Sign oppositeSign() {
+        if (this == X) {
             return O;
-        } else if(this == O){
+        } else if (this == O) {
             return X;
         } else {
             throw new IllegalArgumentException("Empty value doesn't have any opposite one!");
@@ -21,7 +21,7 @@ public enum Sign {
 
     @Override
     public String toString() {
-        if(this == EMPTY){
+        if (this == EMPTY) {
             return " ";
         } else {
             return name();
