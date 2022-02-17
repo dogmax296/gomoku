@@ -7,7 +7,8 @@ import gomoku.model.game.Sign;
 
 import java.util.Random;
 
-import static gomoku.Constants.*;
+import static gomoku.Constants.GAME_TABLE_SIZE;
+import static gomoku.Constants.WIN_COMBINATION_SIZE;
 
 /**
  * @author dogmax296
@@ -41,24 +42,22 @@ public abstract class AbstractComputerMoveStrategy implements ComputerMoveStrate
     }
 
     private void findBestCellForMoveByRows(final GameTable gameTable, final Sign findSign, final BestCells bestCells) {
-        for (int i = 0; i < GAME_TABLE_SIZE; i++) {
-            findBestCellForMoveUsingLambdaConversion(gameTable, findSign, bestCells, i, (k, j) -> new Cell(k, j));
-        }
+        findBestCellForMoveUsingLambdaConversion(gameTable, findSign, bestCells, (i, j, k) -> new Cell(i, j + k));
+
 
     }
 
     private void findBestCellForMoveByCols(final GameTable gameTable, final Sign findSign, final BestCells bestCells) {
-        for (int i = 0; i < GAME_TABLE_SIZE; i++) {
-            findBestCellForMoveUsingLambdaConversion(gameTable, findSign, bestCells, i, (k, j) -> new Cell(j, k));
-        }
+        findBestCellForMoveUsingLambdaConversion(gameTable, findSign, bestCells, (i, j, k) -> new Cell(i + k, j));
+
     }
 
     private void findBestCellForMoveByMainDiagonal(final GameTable gameTable, final Sign findSign, final BestCells bestCells) {
-        findBestCellForMoveUsingLambdaConversion(gameTable, findSign, bestCells, -1, (k, j) -> new Cell(j, j));
+        findBestCellForMoveUsingLambdaConversion(gameTable, findSign, bestCells, (i, j, k) -> new Cell(i+k, j+k));
     }
 
     private void findBestCellForMoveBySecondaryDiagonal(final GameTable gameTable, final Sign findSign, final BestCells bestCells) {
-        findBestCellForMoveUsingLambdaConversion(gameTable, findSign, bestCells, -1, (k, j) -> new Cell(j, 2 - j));
+        findBestCellForMoveUsingLambdaConversion(gameTable, findSign, bestCells, (i, j, k) -> new Cell(i+k, j-k));
     }
 
 
@@ -67,48 +66,66 @@ public abstract class AbstractComputerMoveStrategy implements ComputerMoveStrate
     private void findBestCellForMoveUsingLambdaConversion(final GameTable gameTable,
                                                           final Sign findSign,
                                                           final BestCells bestCells,
-                                                          final int i,
                                                           final Lambda lambda) {
 
-        int countEmptyCells = 0;
-        int countSignCells = 0;
-        final Cell[] localEmptyCells = new Cell[3];
-        int count = 0;
-        for (int j = 0; j < WIN_COMBINATION_SIZE; j++) {
-            final Cell cell = lambda.convert(i, j);
-            if (gameTable.isEmpty(cell)) {
-                localEmptyCells[count++] = cell;
-                countEmptyCells++;
-            } else if (gameTable.getSign(cell) == findSign) {
-                countSignCells++;
-            } else {
-                break;
+
+        for (int i = 0; i < GAME_TABLE_SIZE; i++) {
+            for (int j = 0; j < GAME_TABLE_SIZE; j++) {
+                final Cell[] localEmptyCells = new Cell[WIN_COMBINATION_SIZE];
+                int countEmptyCells = 0;
+                int countSignCells = 0;
+                int count = 0;
+                for (int k = 0; k < WIN_COMBINATION_SIZE; k++) {
+                    final Cell cell = lambda.convert(i, j, k);
+
+                    if (gameTable.isValid(cell)) {
+                        if (gameTable.isEmpty(cell)) {
+                            localEmptyCells[count++] = cell;
+                            countEmptyCells++;
+                        } else if (gameTable.getSign(cell) == findSign) {
+                            countSignCells++;
+                        } else {
+                            break;
+                        }
+                    }
+                }
+
+                if (
+                        countEmptyCells == expectedCountEmptyCells &&
+                                countSignCells == WIN_COMBINATION_SIZE - expectedCountEmptyCells
+                ) {
+                    for (int l = 0; l < count; l++) {
+                        bestCells.add(localEmptyCells[l]);
+                    }
+                }
+
             }
+
         }
 
-        if (
-                countEmptyCells == expectedCountEmptyCells &&
-                        countSignCells == WIN_COMBINATION_SIZE - expectedCountEmptyCells
-        ) {
-            for (int j = 0; j < count; j++) {
-                bestCells.add(localEmptyCells[j]);
-            }
-        }
+
     }
 
     @FunctionalInterface
     private interface Lambda {
-
-        Cell convert(int k, int j);
+        Cell convert(int i, int j, int k);
     }
 
 
     private static class BestCells {
-        private final Cell[] emptyCells = new Cell[GAME_TABLE_SIZE*GAME_TABLE_SIZE];
+        private final Cell[] emptyCells = new Cell[GAME_TABLE_SIZE * GAME_TABLE_SIZE];
         private int count;
 
         private void add(final Cell cell) {
+            boolean isUnique = true;
+            for (int i = 0; i < count; i++) {
+                if (cell.getRow() == emptyCells[i].getRow() && cell.getColl() == emptyCells[i].getColl()) {
+                    return;
+                }
+            }
+
             emptyCells[count++] = cell;
+
         }
 
     }

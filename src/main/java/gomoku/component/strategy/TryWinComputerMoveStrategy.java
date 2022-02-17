@@ -6,10 +6,10 @@ import gomoku.model.game.Sign;
  * @author dogmax296
  * @link https://github.com/dogmax296
  */
-public class WinNowComputerMoveStrategy extends AbstractComputerMoveStrategy {
+public class TryWinComputerMoveStrategy extends AbstractComputerMoveStrategy {
 
-    public WinNowComputerMoveStrategy() {
-        super(1);
+    public TryWinComputerMoveStrategy(final int expectedCountEmptyCells) {
+        super(expectedCountEmptyCells);
     }
 
     @Override

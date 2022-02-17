@@ -13,9 +13,14 @@ public enum Level {
             new RandomComputerMoveStrategy()
     }),
     LEVEL2(new ComputerMoveStrategy[]{
-            new WinNowComputerMoveStrategy(),
-            new PreventUserWinComputerMoveStrategy(),
-            new WinOnTheNextStepComputerMoveStrategy(),
+            new TryWinComputerMoveStrategy(1),
+            new TryPreventUserWinComputerMoveStrategy(1),
+            new TryWinComputerMoveStrategy(2),
+            new TryPreventUserWinComputerMoveStrategy(2),
+            new TryWinComputerMoveStrategy(3),
+            new TryPreventUserWinComputerMoveStrategy(3),
+            new TryWinComputerMoveStrategy(4),
+            new TryPreventUserWinComputerMoveStrategy(4),
             new FirstMoveToTheCenterComputerMoveStrategy(),
             new RandomComputerMoveStrategy()
     });
