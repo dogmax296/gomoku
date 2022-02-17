@@ -21,13 +21,13 @@ import gomoku.model.game.Player;
 
 import java.util.Random;
 
-import static gomoku.Constants.GAME_TABLE_SIZE;
-
 /**
  * @author dogmax296
  * @link https://github.com/dogmax296
  */
 public final class Game {
+
+    private final int size;
 
     private final DataPrinter dataPrinter;
 
@@ -41,13 +41,14 @@ public final class Game {
 
     private final boolean canSecondPlayerMakeFirstMove;
 
-    public Game(final DataPrinter dataPrinter,
+    public Game(final int size,
+                final DataPrinter dataPrinter,
                 final Player player1,
                 final Player player2,
                 final WinnerVerifier winnerVerifier,
                 final CellVerifier cellVerifier,
                 final boolean canSecondPlayerMakeFirstMove) {
-
+        this.size = size;
         this.dataPrinter = dataPrinter;
         this.player1 = player1;
         this.player2 = player2;
@@ -66,7 +67,7 @@ public final class Game {
     }
 
     public void playGame() {
-        final GameTable gametable = new GameTable(GAME_TABLE_SIZE);
+        final GameTable gametable = new GameTable(size);
         if (canSecondPlayerMakeFirstMove && new Random().nextBoolean()) {
             player2.makeMove(gametable);
             dataPrinter.printGameTable(gametable);

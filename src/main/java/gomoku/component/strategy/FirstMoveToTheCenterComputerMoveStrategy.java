@@ -5,7 +5,6 @@ import gomoku.model.game.Cell;
 import gomoku.model.game.GameTable;
 import gomoku.model.game.Sign;
 
-import static gomoku.Constants.GAME_TABLE_SIZE;
 
 /**
  * @author dogmax296
@@ -13,10 +12,10 @@ import static gomoku.Constants.GAME_TABLE_SIZE;
  */
 public class FirstMoveToTheCenterComputerMoveStrategy implements ComputerMoveStrategy {
     @Override
-    public boolean tryToMakeMove(final GameTable gametable, final Sign sign) {
-        final Cell center = new Cell(GAME_TABLE_SIZE/2, GAME_TABLE_SIZE/2);
-        if (gametable.isEmpty(center)) {
-            gametable.setSign(center, sign);
+    public boolean tryToMakeMove(final GameTable gameTable, final Sign sign) {
+        final Cell center = new Cell(gameTable.getSize()/2, gameTable.getSize()/2);
+        if (gameTable.isEmpty(center)) {
+            gameTable.setSign(center, sign);
             return true;
         } else {
             return false;

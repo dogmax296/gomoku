@@ -18,7 +18,6 @@ package gomoku.model.game;
 
 import java.util.Arrays;
 
-import static gomoku.Constants.GAME_TABLE_SIZE;
 import static gomoku.model.game.Sign.EMPTY;
 
 
@@ -29,10 +28,10 @@ import static gomoku.model.game.Sign.EMPTY;
 public class GameTable {
     private final Sign[][] table;
 
-    public GameTable(final int tableSize) {
-        table = new Sign[tableSize][tableSize];
-        for (int i = 0; i < tableSize; i++) {
-            for (int j = 0; j < tableSize; j++) {
+    public GameTable(final int size) {
+        table = new Sign[size][size];
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
                 table[i][j] = EMPTY;
             }
 
@@ -52,10 +51,13 @@ public class GameTable {
     }
 
     public boolean isValid(final Cell cell) {
-        return cell.getRow() >= 0 && cell.getRow() < GAME_TABLE_SIZE &&
-                cell.getColl() >= 0 && cell.getColl() < GAME_TABLE_SIZE;
+        return cell.getRow() >= 0 && cell.getRow() < getSize() &&
+                cell.getColl() >= 0 && cell.getColl() < getSize();
     }
 
+    public int getSize(){
+        return table[0].length;
+    }
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("GameTable{");

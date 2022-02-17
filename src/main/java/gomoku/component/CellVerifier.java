@@ -27,8 +27,8 @@ import static gomoku.Constants.*;
  */
 public class CellVerifier {
     public boolean allCellsFilled(final GameTable gametable) {
-        for (int i = 0; i < GAME_TABLE_SIZE; i++) {
-            for (int j = 0; j < GAME_TABLE_SIZE; j++) {
+        for (int i = 0; i < gametable.getSize(); i++) {
+            for (int j = 0; j < gametable.getSize(); j++) {
                 if (gametable.isEmpty(new Cell(i, j))) {
                     return false;
                 }

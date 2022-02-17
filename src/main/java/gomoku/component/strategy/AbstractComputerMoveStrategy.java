@@ -7,7 +7,6 @@ import gomoku.model.game.Sign;
 
 import java.util.Random;
 
-import static gomoku.Constants.GAME_TABLE_SIZE;
 import static gomoku.Constants.WIN_COMBINATION_SIZE;
 
 /**
@@ -25,7 +24,7 @@ public abstract class AbstractComputerMoveStrategy implements ComputerMoveStrate
     @Override
     public final boolean tryToMakeMove(final GameTable gameTable, final Sign moveSign) {
         final Sign findSign = getFindSign(moveSign);
-        final BestCells bestCells = new BestCells();
+        final BestCells bestCells = new BestCells(gameTable.getSize());
 
         findBestCellForMoveByRows(gameTable, findSign, bestCells);
         findBestCellForMoveByCols(gameTable, findSign, bestCells);
@@ -69,8 +68,8 @@ public abstract class AbstractComputerMoveStrategy implements ComputerMoveStrate
                                                           final Lambda lambda) {
 
 
-        for (int i = 0; i < GAME_TABLE_SIZE; i++) {
-            for (int j = 0; j < GAME_TABLE_SIZE; j++) {
+        for (int i = 0; i < gameTable.getSize(); i++) {
+            for (int j = 0; j < gameTable.getSize(); j++) {
                 final Cell[] localEmptyCells = new Cell[WIN_COMBINATION_SIZE];
                 int countEmptyCells = 0;
                 int countSignCells = 0;
@@ -113,8 +112,12 @@ public abstract class AbstractComputerMoveStrategy implements ComputerMoveStrate
 
 
     private static class BestCells {
-        private final Cell[] emptyCells = new Cell[GAME_TABLE_SIZE * GAME_TABLE_SIZE];
+        private final Cell[] emptyCells;
         private int count;
+
+        private BestCells(final int size) {
+            emptyCells = new Cell[size * size];
+        }
 
         private void add(final Cell cell) {
             boolean isUnique = true;

@@ -5,6 +5,7 @@ import gomoku.component.config.CommandLineArgumentParser;
 import gomoku.component.swing.GameWindow;
 import gomoku.model.config.Level;
 import gomoku.model.config.PlayerType;
+import gomoku.model.config.Size;
 import gomoku.model.game.Player;
 
 import static gomoku.component.config.CommandLineArgumentParser.CommandLineArguments;
@@ -18,20 +19,23 @@ import static gomoku.model.game.Sign.X;
  */
 public class GameFactory {
 
+
     private final PlayerType player1Type;
     private final PlayerType player2Type;
     private final Level level;
+    private final int size;
 
     public GameFactory(final String[] args) {
         final CommandLineArguments commandLineArguments = new CommandLineArgumentParser(args).parse();
         player1Type = commandLineArguments.getPlayer1Type();
         player2Type = commandLineArguments.getPlayer2Type();
-        level = commandLineArguments.getGameLevel();
+        level = commandLineArguments.getLevel();
+        size = commandLineArguments.getSize().getSizeInt();
     }
 
     public Game create() {
 
-        final GameWindow gameWindow = new GameWindow();
+        final GameWindow gameWindow = new GameWindow(size);
 
         Player player1;
         if (this.player1Type == USER) {
@@ -49,6 +53,7 @@ public class GameFactory {
 
         final boolean canSecondPlayerMakeFirstMove = this.player1Type != this.player2Type;
         return new Game(
+                this.size,
                 gameWindow,
                 player1,
                 player2,
