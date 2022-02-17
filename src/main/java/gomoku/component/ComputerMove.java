@@ -19,6 +19,8 @@ package gomoku.component;
 import gomoku.model.game.GameTable;
 import gomoku.model.game.Sign;
 
+import java.util.concurrent.TimeUnit;
+
 /**
  * @author dogmax296
  * @link https://github.com/dogmax296
@@ -26,15 +28,25 @@ import gomoku.model.game.Sign;
 public class ComputerMove implements Move {
 
     private final ComputerMoveStrategy[] strategies;
+    private final long delayInMillis;
 
-    public ComputerMove(final ComputerMoveStrategy[] strategies) {
+    public ComputerMove(final ComputerMoveStrategy[] strategies, final long delayInMillis) {
         this.strategies = strategies;
+        this.delayInMillis = delayInMillis;
     }
 
     @Override
     public void make(final GameTable gametable, Sign sign) {
         for (final ComputerMoveStrategy strategy : strategies) {
             if (strategy.tryToMakeMove(gametable, sign)) {
+                if (delayInMillis > 0) {
+                    try {
+                        TimeUnit.MILLISECONDS.sleep(delayInMillis);
+                    } catch (final InterruptedException exception) {
+                        exception.printStackTrace();
+                    }
+                }
+
                 return;
             }
         }

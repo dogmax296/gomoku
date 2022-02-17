@@ -5,7 +5,6 @@ import gomoku.component.config.CommandLineArgumentParser;
 import gomoku.component.swing.GameWindow;
 import gomoku.model.config.Level;
 import gomoku.model.config.PlayerType;
-import gomoku.model.config.Size;
 import gomoku.model.game.Player;
 
 import static gomoku.component.config.CommandLineArgumentParser.CommandLineArguments;
@@ -24,6 +23,7 @@ public class GameFactory {
     private final PlayerType player2Type;
     private final Level level;
     private final int size;
+    private long delayInMillis;
 
     public GameFactory(final String[] args) {
         final CommandLineArguments commandLineArguments = new CommandLineArgumentParser(args).parse();
@@ -31,6 +31,7 @@ public class GameFactory {
         player2Type = commandLineArguments.getPlayer2Type();
         level = commandLineArguments.getLevel();
         size = commandLineArguments.getSize().getSizeInt();
+        delayInMillis = commandLineArguments.getDelayInMillis();;
     }
 
     public Game create() {
@@ -41,14 +42,14 @@ public class GameFactory {
         if (this.player1Type == USER) {
             player1 = new Player(X, new UserMove(gameWindow, gameWindow));
         } else {
-            player1 = new Player(X, new ComputerMove(level.getStrategies()));
+            player1 = new Player(X, new ComputerMove(level.getStrategies(), delayInMillis));
         }
 
         Player player2;
         if (this.player2Type == USER) {
             player2 = new Player(O, new UserMove(gameWindow, gameWindow));
         } else {
-            player2 = new Player(O, new ComputerMove(level.getStrategies()));
+            player2 = new Player(O, new ComputerMove(level.getStrategies(), delayInMillis));
         }
 
         final boolean canSecondPlayerMakeFirstMove = this.player1Type != this.player2Type;
