@@ -7,6 +7,8 @@ import gomoku.model.game.Sign;
 
 import java.util.Random;
 
+import static gomoku.Constants.*;
+
 /**
  * @author dogmax296
  * @link https://github.com/dogmax296
@@ -39,14 +41,14 @@ public abstract class AbstractComputerMoveStrategy implements ComputerMoveStrate
     }
 
     private void findBestCellForMoveByRows(final GameTable gameTable, final Sign findSign, final BestCells bestCells) {
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < GAME_TABLE_SIZE; i++) {
             findBestCellForMoveUsingLambdaConversion(gameTable, findSign, bestCells, i, (k, j) -> new Cell(k, j));
         }
 
     }
 
     private void findBestCellForMoveByCols(final GameTable gameTable, final Sign findSign, final BestCells bestCells) {
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < GAME_TABLE_SIZE; i++) {
             findBestCellForMoveUsingLambdaConversion(gameTable, findSign, bestCells, i, (k, j) -> new Cell(j, k));
         }
     }
@@ -72,7 +74,7 @@ public abstract class AbstractComputerMoveStrategy implements ComputerMoveStrate
         int countSignCells = 0;
         final Cell[] localEmptyCells = new Cell[3];
         int count = 0;
-        for (int j = 0; j < 3; j++) {
+        for (int j = 0; j < WIN_COMBINATION_SIZE; j++) {
             final Cell cell = lambda.convert(i, j);
             if (gameTable.isEmpty(cell)) {
                 localEmptyCells[count++] = cell;
@@ -86,7 +88,7 @@ public abstract class AbstractComputerMoveStrategy implements ComputerMoveStrate
 
         if (
                 countEmptyCells == expectedCountEmptyCells &&
-                        countSignCells == 3 - expectedCountEmptyCells
+                        countSignCells == WIN_COMBINATION_SIZE - expectedCountEmptyCells
         ) {
             for (int j = 0; j < count; j++) {
                 bestCells.add(localEmptyCells[j]);
@@ -102,7 +104,7 @@ public abstract class AbstractComputerMoveStrategy implements ComputerMoveStrate
 
 
     private static class BestCells {
-        private final Cell[] emptyCells = new Cell[9];
+        private final Cell[] emptyCells = new Cell[GAME_TABLE_SIZE*GAME_TABLE_SIZE];
         private int count;
 
         private void add(final Cell cell) {

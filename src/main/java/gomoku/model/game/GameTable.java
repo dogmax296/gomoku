@@ -26,11 +26,17 @@ import static gomoku.model.game.Sign.EMPTY;
  * @link https://github.com/dogmax296
  */
 public class GameTable {
-    private final Sign[][] table = {
-            {EMPTY, EMPTY, EMPTY},
-            {EMPTY, EMPTY, EMPTY},
-            {EMPTY, EMPTY, EMPTY}
-    };
+    private final Sign[][] table;
+
+    public GameTable(final int tableSize) {
+        table = new Sign[tableSize][tableSize];
+        for (int i = 0; i < tableSize; i++) {
+            for (int j = 0; j < tableSize; j++) {
+                table[i][j] = EMPTY;
+            }
+
+        }
+    }
 
     public boolean isEmpty(final Cell cell) {
         return table[cell.getRow()][cell.getColl()] == EMPTY;

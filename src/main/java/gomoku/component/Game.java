@@ -21,6 +21,8 @@ import gomoku.model.game.Player;
 
 import java.util.Random;
 
+import static gomoku.Constants.*;
+
 /**
  * @author dogmax296
  * @link https://github.com/dogmax296
@@ -60,7 +62,7 @@ public final class Game {
 
     public void play() {
         dataPrinter.printInstructions();
-        final GameTable gametable = new GameTable();
+        final GameTable gametable = new GameTable(GAME_TABLE_SIZE);
         if (canSecondPlayerMakeFirstMove && new Random().nextBoolean()) {
             player2.makeMove(gametable);
             dataPrinter.printGameTable(gametable);

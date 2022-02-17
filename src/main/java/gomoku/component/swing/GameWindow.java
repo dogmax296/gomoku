@@ -1,5 +1,6 @@
 package gomoku.component.swing;
 
+import gomoku.Constants;
 import gomoku.component.DataPrinter;
 import gomoku.component.GameOverHandler;
 import gomoku.component.UserInputReader;
@@ -11,13 +12,13 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+import static gomoku.Constants.*;
+
 /**
  * @author dogmax296
  * @link https://github.com/dogmax296
  */
 public final class GameWindow extends JFrame implements DataPrinter, UserInputReader, GameOverHandler {
-
-    private static final int GAME_TABLE_SIZE = 3;
 
     private static final int FONT_SIZE = 35;
 

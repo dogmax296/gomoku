@@ -21,6 +21,8 @@ import gomoku.model.game.GameTable;
 import gomoku.model.game.Player;
 import gomoku.model.game.Sign;
 
+import static gomoku.Constants.WIN_COMBINATION_SIZE;
+
 /**
  * @author dogmax296
  * @link https://github.com/dogmax296
@@ -34,21 +36,19 @@ public class WinnerVerifier {
                 isWinBySecondDiagonal(gametable, player.getSign());
     }
 
-
-    private boolean isWinBySecondDiagonal(final GameTable gameTable, final Sign sign) {
-        return gameTable.getSign(new Cell(0, 2)) == gameTable.getSign(new Cell(1, 1)) &&
-                gameTable.getSign(new Cell(1, 1)) == gameTable.getSign(new Cell(2, 0)) &&
-                gameTable.getSign(new Cell(2, 0)) == sign;
-    }
-
-    private boolean isWinByMainDiagonal(final GameTable gameTable, final Sign sign) {
-        return gameTable.getSign(new Cell(0, 0)) == gameTable.getSign(new Cell(1, 1)) &&
-                gameTable.getSign(new Cell(1, 1)) == gameTable.getSign(new Cell(2, 2)) &&
-                gameTable.getSign(new Cell(2, 2)) == sign;
-    }
-
     private boolean isWinByRows(final GameTable gameTable, final Sign sign) {
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < WIN_COMBINATION_SIZE; i++) {
+            if (gameTable.getSign(new Cell(i, 0)) == gameTable.getSign(new Cell(i, 1)) &&
+                    gameTable.getSign(new Cell(i, 1)) == gameTable.getSign(new Cell(i, 2)) &&
+                    gameTable.getSign(new Cell(i, 2)) == sign) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean isWinByCols(final GameTable gameTable, final Sign sign) {
+        for (int i = 0; i < WIN_COMBINATION_SIZE; i++) {
             if (gameTable.getSign(new Cell(0, i)) == gameTable.getSign(new Cell(1, i)) &&
                     gameTable.getSign(new Cell(1, i)) == gameTable.getSign(new Cell(2, i)) &&
                     gameTable.getSign(new Cell(2, i)) == sign) {
@@ -58,14 +58,17 @@ public class WinnerVerifier {
         return false;
     }
 
-    private boolean isWinByCols(final GameTable gameTable, final Sign sign) {
-        for (int i = 0; i < 3; i++) {
-            if (gameTable.getSign(new Cell(i, 0)) == gameTable.getSign(new Cell(i, 1)) &&
-                    gameTable.getSign(new Cell(i, 1)) == gameTable.getSign(new Cell(i, 2)) &&
-                    gameTable.getSign(new Cell(i, 2)) == sign) {
-                return true;
-            }
-        }
-        return false;
+    private boolean isWinByMainDiagonal(final GameTable gameTable, final Sign sign) {
+        return gameTable.getSign(new Cell(0, 0)) == gameTable.getSign(new Cell(1, 1)) &&
+                gameTable.getSign(new Cell(1, 1)) == gameTable.getSign(new Cell(2, 2)) &&
+                gameTable.getSign(new Cell(2, 2)) == sign;
     }
+
+    private boolean isWinBySecondDiagonal(final GameTable gameTable, final Sign sign) {
+        return gameTable.getSign(new Cell(0, 2)) == gameTable.getSign(new Cell(1, 1)) &&
+                gameTable.getSign(new Cell(1, 1)) == gameTable.getSign(new Cell(2, 0)) &&
+                gameTable.getSign(new Cell(2, 0)) == sign;
+    }
+
+
 }
