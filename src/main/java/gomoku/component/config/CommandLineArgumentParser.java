@@ -38,8 +38,8 @@ public class CommandLineArgumentParser {
                     );
                 }
             } else if (LEVEL1.name().equalsIgnoreCase(arg) ||
-                    LEVEL2.name().equalsIgnoreCase(arg) ||
-                    LEVEL3.name().equalsIgnoreCase(arg)) {
+                    LEVEL2.name().equalsIgnoreCase(arg)
+            ) {
                 if (level == null) {
                     level = Level.valueOf(arg.toUpperCase());
                 } else {
@@ -58,7 +58,7 @@ public class CommandLineArgumentParser {
 
 
         if (level == null) {
-            level = LEVEL3;
+            level = LEVEL2;
         }
         if (player1Type == null) {
             return new CommandLineArguments(USER, COMPUTER,level);
