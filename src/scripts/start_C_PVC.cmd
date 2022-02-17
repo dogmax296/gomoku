@@ -1,1 +1,0 @@
-start.cmd USER COMPUTER CONSOLE
