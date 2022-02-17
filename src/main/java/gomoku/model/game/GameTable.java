@@ -18,6 +18,7 @@ package gomoku.model.game;
 
 import java.util.Arrays;
 
+import static gomoku.Constants.GAME_TABLE_SIZE;
 import static gomoku.model.game.Sign.EMPTY;
 
 
@@ -48,6 +49,11 @@ public class GameTable {
 
     public void setSign(final Cell cell, final Sign sign) {
         table[cell.getRow()][cell.getColl()] = sign;
+    }
+
+    public boolean isValid(final Cell cell) {
+        return cell.getRow() >= 0 && cell.getRow() < GAME_TABLE_SIZE &&
+                cell.getColl() >= 0 && cell.getColl() < GAME_TABLE_SIZE;
     }
 
     @Override
