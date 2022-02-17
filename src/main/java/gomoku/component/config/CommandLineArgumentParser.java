@@ -33,23 +33,24 @@ public class CommandLineArgumentParser {
         long delayInMillis = -1;
 
         for (final String arg : args) {
-            if (USER.name().equalsIgnoreCase(arg) || COMPUTER.name().equalsIgnoreCase(arg)) {
+            final String normalizedArg = arg.toUpperCase();
+            if (USER.name().equals(normalizedArg) || COMPUTER.name().equals(normalizedArg)) {
                 if (player1Type == null) {
-                    player1Type = PlayerType.valueOf(arg.toUpperCase());
+                    player1Type = PlayerType.valueOf(normalizedArg);
 
                 } else if (player2Type == null) {
-                    player2Type = PlayerType.valueOf(arg.toUpperCase());
+                    player2Type = PlayerType.valueOf(normalizedArg);
                 } else {
                     System.err.printf(
                             "Invalid command line arguments: '%s', because player types already set: player1Type='%s', player2Type='%s'!%n",
                             arg, player1Type, player2Type
                     );
                 }
-            } else if (LEVEL1.name().equalsIgnoreCase(arg) ||
-                    LEVEL2.name().equalsIgnoreCase(arg)
+            } else if (LEVEL1.name().equals(normalizedArg) ||
+                    LEVEL2.name().equals(normalizedArg)
             ) {
                 if (level == null) {
-                    level = Level.valueOf(arg.toUpperCase());
+                    level = Level.valueOf(normalizedArg);
                 } else {
                     System.err.printf(
                             "Invalid command line arguments: '%s', because the game level is already set: '%s'!%n",
@@ -57,9 +58,9 @@ public class CommandLineArgumentParser {
                     );
                 }
 
-            } else if (isSizeArg(arg)) {
+            } else if (isSizeArg(normalizedArg)) {
                 if (size == null) {
-                    size = Size.valueOf(arg.toUpperCase());
+                    size = Size.valueOf(normalizedArg);
                 } else {
                     System.err.printf(
                             "Invalid command line arguments: '%s', because the game level is already set: '%s'!%n",
@@ -67,7 +68,7 @@ public class CommandLineArgumentParser {
                     );
                 }
 
-            } else if (arg.toUpperCase().startsWith(DELAY_PREFIX)) {
+            } else if (normalizedArg.startsWith(DELAY_PREFIX)) {
                 if (delayInMillis == -1) {
                     delayInMillis = getDelayInMillis(arg);
                 } else {
@@ -133,7 +134,7 @@ public class CommandLineArgumentParser {
 
     private boolean isSizeArg(final String arg) {
         for (final Size value : Size.values()) {
-            if (value.name().equalsIgnoreCase(arg)) {
+            if (value.name().equals(arg)) {
                 return true;
             }
         }
