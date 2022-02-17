@@ -10,7 +10,6 @@ import static gomoku.model.config.Level.LEVEL1;
 import static gomoku.model.config.Level.LEVEL2;
 import static gomoku.model.config.PlayerType.COMPUTER;
 import static gomoku.model.config.PlayerType.USER;
-import static gomoku.model.config.Size.SIZE15;
 
 /**
  * @author dogmax296

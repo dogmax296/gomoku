@@ -5,6 +5,8 @@ import gomoku.model.game.Cell;
 import gomoku.model.game.GameTable;
 import gomoku.model.game.Sign;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -15,18 +17,17 @@ public class RandomComputerMoveStrategy implements ComputerMoveStrategy {
 
     @Override
     public boolean tryToMakeMove(final GameTable gameTable, final Sign sign) {
-        final Cell[] emptyCells = new Cell[gameTable.getSize()*gameTable.getSize()];
-        int count = 0;
+        final List<Cell> emptyCells = new ArrayList<>();
         for (int i = 0; i < gameTable.getSize(); i++) {
             for (int j = 0; j < gameTable.getSize(); j++) {
                 final Cell cell = new Cell(i, j);
                 if (gameTable.isEmpty(cell)) {
-                    emptyCells[count++] = cell;
+                    emptyCells.add(cell);
                 }
             }
         }
-        if (count > 0) {
-            final Cell randomCell = emptyCells[new Random().nextInt(count)];
+        if (emptyCells.size() > 0) {
+            final Cell randomCell = emptyCells.get(new Random().nextInt(emptyCells.size()));
             gameTable.setSign(randomCell, sign);
             return true;
         } else {
